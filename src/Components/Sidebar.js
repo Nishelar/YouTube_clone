@@ -1,18 +1,21 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
   const isMenuOpen=useSelector(store=>store.app.isMenuOpen);
   
   if(!isMenuOpen) return null;
   return (
-    <div className='w-52 mr-2 fixed '>
-        <div className='shadow-lg text-center py-2' >
+    <div className='w-52 '>
+        <div className='shadow-lg text-center py-2 w-52' >
         <ul>
+            <Link to="/">
             <li className='py-2 px-6 hover:bg-slate-200 flex'>
                 <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home icon"/>
                 <p >Home</p>
             </li>
+            </Link>
             <li className='py-2 px-6  hover:bg-slate-200 flex'>
                 <img className="h-6 pr-5" src="https://cdn.pixabay.com/photo/2021/05/05/12/16/shorts-png-6230962_960_720.png" alt="Shorts icon"/>
                 <p >Shorts</p>

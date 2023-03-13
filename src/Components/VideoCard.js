@@ -11,7 +11,7 @@ export default function VideoCard({info}) {
         <li className='font-bold h-16 title'>{title}</li>
         <li>{channelTitle}</li>
         <li>{
-             (Math.round(statistics.viewCount/Math.pow(10,6)>1))?`${(statistics.viewCount/1000000).toFixed(2)}M`:`${Math.round(statistics.viewCount/1000)}K`
+            (parseInt(statistics.viewCount)).toLocaleString()
              } views</li>
       </ul>
     </div>

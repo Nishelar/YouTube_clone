@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import YOUTUBE_API_KEY from '../Utils/constants'
 import VideoCard from './VideoCard'
 
@@ -18,9 +19,9 @@ export default function VideoContainer() {
     return null;
   }
   return (
-    <div className='flex flex-wrap  ml-72'>
+    <div className='flex flex-wrap mx-6 py-10 '>
       {videos.map(video=>{
-         return <VideoCard key={video.id} info={video}/>
+         return (<Link key={video.id} to={"/watch?v="+video.id}><VideoCard  info={video}/></Link>)
       })}
     </div>
   )
