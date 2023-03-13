@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../Utils/appSlice";
 import { SEARCH_API } from "../Utils/constants";
+import { cacheResult } from "../Utils/searchSlice";
 
 const HeaderComponent=()=>{
     const[searchQuery,setSearchQuery]=useState("");
     const[searchSuggestions,setSearchSuggestions]=useState([]);
+    const[showSearchSuggestions,setShowSearchSuggestions]=useState(false);
     const dispatch=useDispatch();
+    const cacheData=useSelector(store=>store.search)
     const getSearchSuggestions=async()=>{
         const data=await fetch(SEARCH_API+searchQuery);
         const json=await data.json();
         setSearchSuggestions(json[1]);
+        dispatch(cacheResult({[searchQuery]:json[1]}))
     }
 
     useEffect(()=>{
         
         const timer=setTimeout(()=>{
-            getSearchSuggestions();   
+            if(cacheData[searchQuery]){
+                setSearchSuggestions(cacheData[searchQuery])
+                console.log(cacheData[searchQuery])
+            }
+            else{
+            getSearchSuggestions();
+            }   
         },200)
         return ()=>{
             clearTimeout(timer)
@@ -34,16 +44,16 @@ const HeaderComponent=()=>{
                 <img className="h-6 mx-1 flex-shrink-0 sm:h-12 px-2" src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png" alt="Youtube logo"/>
             </div>
             <div className="second  flex justify-center py-1 col-span-10">
-                <div className="flex justify-center w-[100%] h-[100%]">
-                 <input className="w-1/2 rounded-l-full border-gray-300 border-2 px-6" type="text" value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)}/>
+                <div className="flex justify-center w-[100%] h-[100%]" >
+                 <input className="w-1/2 rounded-l-full border-gray-300 border-2 px-6" type="text" value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} onBlur={()=>setShowSearchSuggestions(false)} onFocus={()=>setShowSearchSuggestions(true)}/>
                  <button className="bg-gray-200 rounded-r-full px-2 py-2 sm:py-2 sm:px-4"><img className="h-2 sm:h-6 min-h-full flex-shrink-0" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png" alt=""/></button>
                 </div>
-                { searchSuggestions.length!==0?
-                <div className="mt-12 fixed bg-white py-2 px-5 w-[37rem] shadow-lg rounded-lg border border-gray-200">
+                { showSearchSuggestions&&searchSuggestions.length!==0?
+                <div className="mt-12 absolute bg-white py-2  w-[35rem] shadow-lg rounded-lg border border-gray-200">
                       <ul>
-                      {searchSuggestions.map((item)=>{
+                      {searchSuggestions.map((item,index)=>{
                         return (
-                                <li onClick={()=>setSearchQuery(item)} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍{item}</li>
+                                <li key={index} onClick={()=>setSearchQuery(item)} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍{item}</li>
                         )
                       })}
                       </ul>
