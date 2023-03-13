@@ -1,10 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { toggleMenu } from "../Utils/appSlice";
 
 const HeaderComponent=()=>{
+    const dispatch=useDispatch();
+    const toggleMenuHandler=()=>{
+        dispatch(toggleMenu());
+    }
     return(
         <div className="items-center shadow-lg grid grid-flow-col"> 
             <div className="flex py-2 items-center mr-1 sm:col-span-1" >
-                <img className="h-3 mx-1 flex-shrink-0 sm:h-8 pl-3" src="https://icons-for-free.com/download-icon-hamburger+button-1324760585124590953_256.ico" alt="Hamburger icon"/>
+                <img onClick={()=>toggleMenuHandler()}  className="h-3 cursor-pointer mx-1 flex-shrink-0 sm:h-8 pl-3" src="https://icons-for-free.com/download-icon-hamburger+button-1324760585124590953_256.ico" alt="Hamburger icon"/>
                 <img className="h-6 mx-1 flex-shrink-0 sm:h-12 px-2" src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png" alt="Youtube logo"/>
             </div>
             <div className="second  flex justify-center py-1 col-span-10">

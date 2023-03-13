@@ -1,8 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export default function Sidebar() {
+  const isMenuOpen=useSelector(store=>store.app.isMenuOpen);
+  
+  if(!isMenuOpen) return null;
   return (
-    <div className='w-52'>
+    <div className='w-52 mr-2 fixed '>
         <div className='shadow-lg text-center py-2' >
         <ul>
             <li className='py-2 px-6 hover:bg-slate-200 flex'>
