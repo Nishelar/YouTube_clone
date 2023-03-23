@@ -1,14 +1,97 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import { setVideos } from '../Utils/videoSlice';
+import { YOUTUBE_API_KEY_FASHION, YOUTUBE_API_KEY_GAMING, YOUTUBE_API_KEY_LIVE, YOUTUBE_API_KEY_MOVIES, YOUTUBE_API_KEY_MUSIC, YOUTUBE_API_KEY_NEWS, YOUTUBE_API_KEY_SPORTS } from '../Utils/constants';
 
 export default function Sidebar() {
   const isMenuOpen=useSelector(store=>store.app.isMenuOpen);
+
+  const dispatch=useDispatch();
+
+
+
+  const getMusicVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_MUSIC);
+    const json=await data.json();
+    dispatch(setVideos(json.items));
+  }
+
+  const getMovieVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_MOVIES);
+    const json=await data.json();
+    dispatch(setVideos(json.items))
+  }
+
+  const getGamingVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_GAMING);
+    const json=await data.json();
+    dispatch(setVideos(json.items))
+  }
+
+  const getNewsVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_NEWS);
+    const json=await data.json();
+    dispatch(setVideos(json.items))
+  }
+
+  const getfashionVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_FASHION);
+    const json=await data.json();
+    dispatch(setVideos(json.items)); 
+}
+
+  const getSportsVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_SPORTS);
+    const json=await data.json();
+    dispatch(setVideos(json.items))
+    console.log(json.items)
+  }
+
+  const getLiveVideos=async()=>{
+    const data=await fetch(YOUTUBE_API_KEY_LIVE);
+    const json=await data.json();
+    const updatedjson=json.items.map(item=>{
+        item.id=item.id.videoId;
+        return item
+    })
+    dispatch(setVideos(updatedjson));
+  }
+ 
+  const setVideostoGaming=()=>{
+    getGamingVideos();
+  }
+
+  const setVideostoNews=()=>{
+    getNewsVideos();
+  }
+
+  const setVideostoSports=()=>{
+    getSportsVideos();
+  }
+
+  const setVideostoMusic=()=>{
+    getMusicVideos();
+  }
+
+  const setVideostoFashion=()=>{
+    getfashionVideos();
+  }
+
+  const setVideostoMovies=()=>{
+    getMovieVideos();
+  }
+
+  const setVideosToLive=()=>{
+    getLiveVideos();
+  }
+
+
   
   if(!isMenuOpen) return null;
   return (
-    <div className='w-52 '>
-        <div className='shadow-lg text-center py-2 w-52' >
+    <div className='w-52 absolute bg-white rounded-xl sm:static'>
+        <div className=' text-center  w-52' >
         <ul>
             <Link to="/">
             <li className='py-2 px-6 hover:bg-slate-200 flex'>
@@ -21,12 +104,12 @@ export default function Sidebar() {
                 <p >Shorts</p>
             </li>
             <li className='py-2 px-6 hover:bg-slate-200 flex'>
-                <img className="h-6 pr-5" src="https://cdn.icon-icons.com/icons2/2248/PNG/512/youtube_subscription_icon_136007.png" alt="Subscriptions icon"/>
+                <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/128/2989/2989849.png" alt="Subscriptions icon"/>
                 <p >Subscriptions</p>
             </li>
         </ul>
         </div>
-        <div className='shadow-lg py-2'>
+        <div className='rounded-b-xl shadow-xl'>
         <h1 className='py-2  px-6 font-sans text-xl font-normal text-center '>Explore</h1>
         <ul className='text-sm font-normal font-sans'>
             <li className='py-1 px-6  hover:bg-slate-200 flex'>
@@ -37,27 +120,29 @@ export default function Sidebar() {
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Shopping icon"/>
                 <p>Shopping</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <Link to="/">
+            <li onClick={()=>setVideostoMusic()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn3.iconfinder.com/data/icons/social-network-linear-color/100/Youtube_Music-512.png" alt="Music icon"/>
                 <p>Music</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            </Link>
+            <li onClick={()=>setVideostoMovies()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/512/3799/3799786.png" alt="Movies icon"/>
                 <p>Movies</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <li onClick={()=>setVideosToLive()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://img.icons8.com/ios/512/youtube-live.png" alt="Live icon"/>
                 <p>Live</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <li onClick={()=>setVideostoGaming()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn.iconscout.com/icon/free/png-256/youtube-gaming-4627159-3853350.png" alt="Gaming icon"/>
                 <p>Gaming</p>
             </li> 
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <li onClick={()=>setVideostoNews()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/128/3208/3208799.png" alt="News icon"/>
                 <p>News</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <li onClick={()=>setVideostoSports()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/128/711/711840.png" alt="Sports icon"/>
                 <p>Sports</p>
             </li>
@@ -65,7 +150,7 @@ export default function Sidebar() {
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/512/2932/2932883.png" alt="Learning icon"/>
             <p>Learning</p>
             </li>
-            <li className='py-1 px-6  hover:bg-slate-200 flex'>
+            <li onClick={()=>setVideostoFashion()} className='py-1 px-6  hover:bg-slate-200 flex'>
             <img className="h-6 pr-5" src="https://cdn-icons-png.flaticon.com/512/3081/3081850.png" alt="Fashion icon"/>
                 <p>Fashion & Beauty</p>
             </li>

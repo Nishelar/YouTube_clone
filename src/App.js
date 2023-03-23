@@ -7,6 +7,8 @@ import store from './Utils/store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import VideoContainer from './Components/VideoContainer';
 import { Suspense } from 'react';
+import MainContainer from './Components/MainContainer';
+import SearchResults from './Components/SearchResults';
 
 const WatchPage=React.lazy(()=>import("./Components/WatchPage"));
 const appRouter=createBrowserRouter([
@@ -14,7 +16,7 @@ const appRouter=createBrowserRouter([
   element:<Body/>,
   children:[{
     path:"/",
-    element:<VideoContainer />
+    element:<MainContainer />
   },
   {
     path:"watch",
@@ -22,6 +24,10 @@ const appRouter=createBrowserRouter([
     <Suspense fallback={"loading..."}>
       <WatchPage/>
     </Suspense>
+  },
+  {
+    path:"results",
+    element:<SearchResults/>
   }
 
 ]

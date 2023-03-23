@@ -10,9 +10,10 @@ export default function VideoCard({info}) {
       <ul>
         <li className='font-bold h-16 title'>{title}</li>
         <li>{channelTitle}</li>
+        {statistics &&
         <li>{
             (parseInt(statistics.viewCount)).toLocaleString()
-             } views</li>
+             } views</li>}
       </ul>
     </div>
   )

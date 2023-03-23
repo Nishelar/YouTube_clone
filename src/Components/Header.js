@@ -22,7 +22,6 @@ const HeaderComponent=()=>{
         const timer=setTimeout(()=>{
             if(cacheData[searchQuery]){
                 setSearchSuggestions(cacheData[searchQuery])
-                console.log(cacheData[searchQuery])
             }
             else{
             getSearchSuggestions();
@@ -53,7 +52,7 @@ const HeaderComponent=()=>{
                       <ul>
                       {searchSuggestions.map((item,index)=>{
                         return (
-                                <li key={index} onClick={()=>setSearchQuery(item)} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍{item}</li>
+                                <li key={index} onClick={(item)=>console.log(item)} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍{item}</li>
                         )
                       })}
                       </ul>
